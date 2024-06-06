@@ -21,4 +21,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::apiResource('products', \App\Http\Controllers\ProductsController::class);
+
+    Route::group(['role:admin|moderator'], function () {
+        Route::post('products/{product}/images', [\App\Http\Controllers\Products\ImagesController::class, 'store'])->name('product.images.store');
+        Route::get('images/{image}', [\App\Http\Controllers\Products\ImagesController::class, 'show'])->name('images.show');
+        Route::delete('images/{image}', \App\Http\Controllers\RemoveImagesController::class)->name('images.destroy');
+    });
+
+});
