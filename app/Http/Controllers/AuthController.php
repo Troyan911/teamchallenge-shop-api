@@ -21,7 +21,9 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $request->name,
+            'surname' => $request->surname,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
 
@@ -52,7 +54,7 @@ class AuthController extends Controller
             now()->addMinutes(240)
         );
 
-        return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+        return response()->json(['access_token' => $token->plainTextToken, 'token_type' => 'Bearer']);
     }
 
     public function logout(Request $request)

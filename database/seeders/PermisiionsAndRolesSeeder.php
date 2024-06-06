@@ -24,15 +24,15 @@ class PermisiionsAndRolesSeeder extends Seeder
             }
         }
 
-        if (!Role::where('name', Roles::CUSTOMER->value)->exists()) {
+        if (! Role::where('name', Roles::CUSTOMER->value)->exists()) {
             $role = Role::create(['name' => Roles::CUSTOMER->value]);
             $role->givePermissionTo(array_values($permissions['account']));
         }
 
-        if (!Role::where('name', Roles::MODERATOR->value)->exists()) {
+        if (! Role::where('name', Roles::MODERATOR->value)->exists()) {
 
             $moderatorPermissions = array_merge(
-                array_values($permissions['categories']),
+                //                array_values($permissions['categories']),
                 array_values($permissions['products'])
             );
 
@@ -40,7 +40,7 @@ class PermisiionsAndRolesSeeder extends Seeder
             $role->givePermissionTo($moderatorPermissions);
         }
 
-        if (!Role::where('name', Roles::ADMIN->value)->exists()) {
+        if (! Role::where('name', Roles::ADMIN->value)->exists()) {
             $role = Role::create(['name' => Roles::ADMIN->value]);
             $role->givePermissionTo(Permission::all());
         }

@@ -16,10 +16,13 @@ class DatabaseSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         User::truncate();
+        User::truncate();
+        Product::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $this->call(PermisiionsAndRolesSeeder::class);
         $this->call(UsersSeeder::class);
+        $this->call(ProductsSeeder::class);
 
     }
 }
