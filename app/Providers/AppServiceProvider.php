@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\ImageRepositoryContract;
 use App\Repositories\Contracts\ProductsRepositoryContract;
+use App\Repositories\ImageRepository;
 use App\Repositories\ProductsRepository;
 use App\Services\Contract\FileStorageServiceContract;
 use App\Services\FileStorageService;
@@ -16,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(ProductsRepositoryContract::class, ProductsRepository::class);
+        $this->app->bind(ImageRepositoryContract::class, ImageRepository::class);
         $this->app->bind(FileStorageServiceContract::class, FileStorageService::class);
     }
 
