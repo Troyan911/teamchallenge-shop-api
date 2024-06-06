@@ -15,7 +15,7 @@ class UsersSeeder extends Seeder
     {
         $adminEmail = env('ADMIN_EMAIL', 'admin@admin.com');
 
-        if (!User::where('email', $adminEmail)->exists()) {
+        if (! User::where('email', $adminEmail)->exists()) {
             (User::factory()->withEmail($adminEmail)->create())->syncRoles(Roles::ADMIN->value);
         }
 

@@ -184,7 +184,6 @@ return [
         'store' => 'default',
     ],
 
-
     'permissions' => [
         'categories' => [
             'publish' => 'publish categories',
