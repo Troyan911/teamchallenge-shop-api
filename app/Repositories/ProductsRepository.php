@@ -5,15 +5,15 @@ namespace App\Repositories;
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\EditProductRequest;
 use App\Models\Product;
-//use App\Repositories\Contracts\ImageRepositoryContract;
+use App\Repositories\Contracts\ImageRepositoryContract;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ProductsRepository implements Contracts\ProductsRepositoryContract
 {
-    //    public function __construct(protected ImageRepositoryContract $imageRepository)
-    //    {
-    //    }
+    public function __construct(protected ImageRepositoryContract $imageRepository)
+    {
+    }
 
     public function create(CreateProductRequest $request): Product|false
     {
@@ -87,13 +87,13 @@ class ProductsRepository implements Contracts\ProductsRepositoryContract
         //            $product->categories()->attach($data['categories']);
         //        }
 
-        //        if (! empty($data['attributes']['images'])) {
-        //            $this->imageRepository->attach(
-        //                $product,
-        //                'images',
-        //                $data['attributes']['images'],
-        //                $product->directory);
-        //        }
+        if (! empty($data['attributes']['images'])) {
+            $this->imageRepository->attach(
+                $product,
+                'images',
+                $data['attributes']['images'],
+                $product->directory);
+        }
     }
 
     protected function formRequestData(CreateProductRequest|EditProductRequest $request): array
