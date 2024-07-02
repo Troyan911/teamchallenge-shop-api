@@ -23,6 +23,7 @@ class ProductsRepository implements Contracts\ProductsRepositoryContract
             $data = $this->formRequestData($request);
             $data['attributes'] = $this->addSlugAndDirToAttributes($data['attributes'], true);
 
+            //            dd($data['attributes']);
             $product = Product::create($data['attributes']);
             $this->setProductData($product, $data);
 
@@ -31,7 +32,7 @@ class ProductsRepository implements Contracts\ProductsRepositoryContract
             return $product;
         } catch (\Exception $exception) {
             DB::rollBack();
-            logs()->warning($exception);
+            logs()->error($exception);
 
             return false;
         }

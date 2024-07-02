@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Product;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class EditProductRequest extends FormRequest
 {
@@ -27,13 +25,12 @@ class EditProductRequest extends FormRequest
         $productId = $this->route('product')->id;
 
         return [
-            'title' => ['required', 'string', 'min:2', 'max:255', Rule::unique(Product::class, 'title')->ignore($productId)],
+            'title' => ['required', 'string', 'min:2', 'max:255'],
             'description' => ['nullable', 'string'],
-            'SKU' => ['required', 'string', 'min:1', 'max:35', Rule::unique(Product::class, 'SKU')->ignore($productId)],
+            'SKU' => ['required', 'string', 'min:1', 'max:35'],
             'price' => ['required', 'numeric', 'min:1'],
             'new_price' => ['nullable', 'numeric', 'min:1'],
-            'quantity' => ['required', 'numeric', 'min:0'],
-            'thumbnail' => ['image:jpeg,png'],
+            'thumbnail' => ['nullable', 'image:jpeg,png'],
         ];
     }
 }
