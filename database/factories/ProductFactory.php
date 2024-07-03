@@ -19,7 +19,7 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $title = fake()->unique()->words(rand(1, 3), true);
+        $title = "Вишиванка " . fake()->unique()->words(1, true);
         $slug = Str::of($title)->slug();
         $price = fake()->randomFloat(2, 10, 100);
         $newPrice = fake()->randomFloat(2, 5, $price * 0.95);

@@ -17,6 +17,7 @@ class VariantResource extends JsonResource
             'id' => $this->id,
             'size' => (new SizeResource($this->whenLoaded('size')))->name,
             'color' => (new ColorResource($this->whenLoaded('color')))->name,
+            'hex_code' => (new ColorResource($this->whenLoaded('color')))->hex_code,
             'quantity' => $this->quantity,
         ];
     }
