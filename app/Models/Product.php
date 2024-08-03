@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Products\Gender;
 use App\Services\Contract\FileStorageServiceContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -20,26 +21,24 @@ class Product extends Model
         'directory',
         'title',
         'description',
+        'gender',
+        'size',
         'SKU',
         'price',
         'new_price',
-        'quantity',
         'thumbnail',
     ];
 
     protected $hidden = [];
 
-    protected $casts = [];
-
-    public $sortable = [
-        'id',
-        'title',
-        'SKU',
-        'price',
-        'quantity',
-        'created_at',
-        'updated_at',
+    protected $casts = [
+        'gender' => Gender::class,
     ];
+
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
 
     public function images(): MorphMany
     {

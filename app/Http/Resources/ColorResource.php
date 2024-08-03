@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ImageResource extends JsonResource
+class ColorResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,9 +14,9 @@ class ImageResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        //todo        dd($this);
         return [
-            'path' => $this->resource,
+            'name' => $this->name,
+            'hex_code' => $this->hex_code,
         ];
     }
 }
