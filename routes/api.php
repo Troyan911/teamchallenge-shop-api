@@ -20,7 +20,7 @@ Route::group(['middleware' => ['cors']], function () {
     Route::post('/login', [AuthController::class, 'login']);
 
     Route::apiResource('products', \App\Http\Controllers\Products\ProductsController::class)->only(['index', 'show']);
-    Route::post('products/{product}/images', [\App\Http\Controllers\Products\ImagesController::class, 'storeImage'])->name('product.images.store');
+    Route::post('products/{product}/images', [\App\Http\Controllers\Products\ImagesController::class, 'store'])->name('product.images.store');
     Route::post('products/{product}/thumbnail', [\App\Http\Controllers\Products\ImagesController::class, 'storeThumbnail'])->name('product.images.store');
 
     Route::middleware('auth:sanctum')->group(function () {
@@ -32,7 +32,7 @@ Route::group(['middleware' => ['cors']], function () {
             //        Route::post('products/{product}/images', [\App\Http\Controllers\Products\ImagesController::class, 'storeImage'])->name('product.images.store');
             //        Route::post('products/{product}/thumbnail', [\App\Http\Controllers\Products\ImagesController::class, 'storeThumbnail'])->name('product.images.store');
             Route::get('images/{image}', [\App\Http\Controllers\Products\ImagesController::class, 'show'])->name('images.show');
-            Route::delete('images/{image}', \App\Http\Controllers\RemoveImagesController::class)->name('images.destroy');
+            Route::delete('images/{image}', \App\Http\Controllers\RemoveImagesAndProductController::class)->name('images.destroy');
         });
 
     });
