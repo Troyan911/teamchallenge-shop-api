@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Roles;
+use App\Http\Requests\Auth\ChangePasswordRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,20 @@ class AuthController extends Controller
         ]);
 
         return response()->json(['message' => 'User registered successfully']);
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        $auth = Auth::user();
+
+        /** @var \App\Models\User $user */
+        $user =  User::find($auth->getAuthIdentifier());
+
+        $user->password = Hash::make($request->password);
+
+        $user->save();
+        $this->logout($request);
+        return response()->json(['message' => "Password has been changed!"]);
     }
 
     public function login(Request $request)

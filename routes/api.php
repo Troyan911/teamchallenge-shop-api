@@ -23,10 +23,11 @@ Route::group(['middleware' => ['cors']], function () {
     Route::post('products/{product}/images', [\App\Http\Controllers\Products\ImagesController::class, 'storeImage'])->name('product.images.store');
     Route::post('products/{product}/thumbnail', [\App\Http\Controllers\Products\ImagesController::class, 'storeThumbnail'])->name('product.images.store');
 
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::apiResource('products', \App\Http\Controllers\Products\ProductsController::class)->except(['index', 'show']);
         Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/change-password', [AuthController::class, 'changePassword']);
 
         Route::group(['role:admin|moderator'], function () {
             //        Route::post('products/{product}/images', [\App\Http\Controllers\Products\ImagesController::class, 'storeImage'])->name('product.images.store');
