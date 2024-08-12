@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Products;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\EditProductRequest;
 use App\Http\Resources\ProductCollection;
@@ -11,19 +12,14 @@ use App\Repositories\Contracts\ProductsRepositoryContract;
 
 class ProductsController extends Controller
 {
-    public function __construct()
-    {
-        //todo
-        //        $this->authorizeResource(Product::class, 'product');
-    }
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $products = Product::orderByDesc('id')
-            ->paginate(5);
+        $products = Product::with('variants.color', 'variants.size')
+            ->orderByDesc('id')
+            ->paginate(12);
 
         return (new ProductCollection($products))
             ->additional(
@@ -52,6 +48,8 @@ class ProductsController extends Controller
      */
     public function show(Product $product)
     {
+        $product->load('variants.color', 'variants.size');
+
         return new ProductResource($product);
     }
 
@@ -62,7 +60,7 @@ class ProductsController extends Controller
     {
         $repository->update($product, $request);
 
-        return new ProductResource(Product::find($product->id));
+        return new ProductResource(Product::with('variants.color', 'variants.size')->find($product->id));
     }
 
     /**

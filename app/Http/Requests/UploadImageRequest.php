@@ -11,7 +11,8 @@ class UploadImageRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->can(config('permission.permissions.products.edit'));
+        return true;
+        //        return auth()->user()->can(config('permission.permissions.products.edit'));
     }
 
     /**
@@ -22,7 +23,7 @@ class UploadImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => ['image:jpeg,png', 'required'],
+            'image' => ['image:jpeg,jpg,png', 'required'],
         ];
     }
 }
