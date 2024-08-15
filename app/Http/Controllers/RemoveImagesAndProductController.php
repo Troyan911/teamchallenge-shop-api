@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
+use App\Models\Product;
 use App\Policies\Products;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -11,17 +12,15 @@ class RemoveImagesAndProductController extends Controller
 {
     public function __invoke($id)
     {
-
         try {
             //delete entire folder with photo(s)
-            $directory = DB::table('products')->where('id', $id)->first()->directory;
-            Storage::disk('public')->deleteDirectory($directory);
+            Storage::disk('public')->deleteDirectory(Product::find($id)->directory);
 
             //delete corresponding product
-            DB::table('products')->where('id', $id)->delete();
+            Product::find($id)->delete();
 
             //delete images url from table 'image'
-            DB::table('images')->where('imageable_id', $id)->delete();
+            Image::where('imageable_id', $id)->delete();
 
             return response()->json(['message' => 'All the photos and product itself were successful deleted.']);
 
@@ -32,8 +31,6 @@ class RemoveImagesAndProductController extends Controller
                 'message' => $exception->getMessage(),
             ]);
         }
-
-
     }
 }
 
