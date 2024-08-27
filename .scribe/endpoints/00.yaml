@@ -1,0 +1,254 @@
+name: Authentication
+description: ' API Auth + Change PassWord'
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/register
+    metadata:
+      groupName: Authentication
+      groupDescription: ' API Auth + Change PassWord'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'USER REGISTER'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'The name of the user.'
+        required: true
+        example: Jon
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      email:
+        name: email
+        description: 'The email of the user.'
+        required: true
+        example: user@example.com
+        type: email
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      password:
+        name: password
+        description: 'The password of the user.'
+        required: true
+        example: adjan213bb134
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      surname:
+        name: surname
+        description: 'The surname of the user.'
+        required: true
+        example: Gates
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      phone:
+        name: phone
+        description: 'The phone of the user.'
+        required: true
+        example: '+38087659800'
+        type: numeric
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      password_confirmation:
+        name: password_confirmation
+        description: 'The confirmation password. The exactly same as password.'
+        required: true
+        example: adjan213bb134
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      name: Jon
+      email: user@example.com
+      password: adjan213bb134
+      surname: Gates
+      phone: '+38087659800'
+      password_confirmation: adjan213bb134
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "message": "User registered successfully"
+           }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/login
+    metadata:
+      groupName: Authentication
+      groupDescription: ' API Auth + Change PassWord'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'USER LOG IN'
+      description: 'For user who successfully registered before.'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        name: email
+        description: 'The email of the user.'
+        required: true
+        example: user@example.com
+        type: email
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      password:
+        name: password
+        description: 'The password of the user.'
+        required: true
+        example: adjan213bb134
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      email: user@example.com
+      password: adjan213bb134
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+             "access_token": "3|9p3RVbiyIVMXpA49OcWWbmO5eLJ3QfKIHFR2ODeW86a8ece2",
+             "token_type": "Bearer"
+            }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/logout
+    metadata:
+      groupName: Authentication
+      groupDescription: ' API Auth + Change PassWord'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'USER LOG OUT'
+      description: 'The key word Bearer void and token.'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer 3|9p3RVbiyIVMXpA49OcWWbmO5eLJ3QfKIHFR2ODeW86a8ece2'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+             "user": "Jon",
+             "surname": "Gates",
+             "message": "Logged out successfully"
+            }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/change-password
+    metadata:
+      groupName: Authentication
+      groupDescription: ' API Auth + Change PassWord'
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        name: email
+        description: 'Must be a valid email address.'
+        required: true
+        example: diana.stark@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      password:
+        name: password
+        description: ''
+        required: true
+        example: enim
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      email: diana.stark@example.net
+      password: enim
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
