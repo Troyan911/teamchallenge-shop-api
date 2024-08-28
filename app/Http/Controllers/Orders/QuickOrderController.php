@@ -28,7 +28,7 @@ class QuickOrderController extends Controller
      * @bodyParam delivery_address string required Delivery address. Example: city London. st Bray ton beach 27
      *
      * @response {
-     *   "message": "Quick order successfully received."
+     *   "message": "Quick order successfully added."
      *  }
      *
      */
@@ -42,15 +42,19 @@ class QuickOrderController extends Controller
             'delivery_address' => 'required|string',
         ]);
 
-        $quickOrder =new QuickOrder();
-        $quickOrder->customer_name=$request->customer_name;
-        $quickOrder->phone_number=$request->phone_number;
-        $quickOrder->product_id=$request->product_id;
-        $quickOrder->quantity=$request->quantity;
-        $quickOrder->delivery_address=$request->delivery_address;
-        $quickOrder->save();
+        if(QuickOrder::find($request->product_id)){
+            $quickOrder =new QuickOrder();
+            $quickOrder->customer_name=$request->customer_name;
+            $quickOrder->phone_number=$request->phone_number;
+            $quickOrder->product_id=$request->product_id;
+            $quickOrder->quantity=$request->quantity;
+            $quickOrder->delivery_address=$request->delivery_address;
+            $quickOrder->save();
+            return response()->json(['message' => 'Quick order successfully added'],200);
+        }
 
-       return response()->json(['message' => 'Quick order successfully added']);
+        return response()->json(['message' => 'Product with such ID does not exist' ],404);
+
 
     }
 

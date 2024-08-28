@@ -229,7 +229,7 @@ endpoints:
         name: email
         description: 'Must be a valid email address.'
         required: true
-        example: xankunding@example.org
+        example: tommie49@example.net
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -238,14 +238,14 @@ endpoints:
         name: password
         description: ''
         required: true
-        example: impedit
+        example: asperiores
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      email: xankunding@example.org
-      password: impedit
+      email: tommie49@example.net
+      password: asperiores
     fileParameters: []
     responses: []
     responseFields: []
