@@ -227,7 +227,7 @@ endpoints:
         name: email
         description: 'Must be a valid email address.'
         required: true
-        example: diana.stark@example.net
+        example: xankunding@example.org
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -236,14 +236,14 @@ endpoints:
         name: password
         description: ''
         required: true
-        example: enim
+        example: impedit
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      email: diana.stark@example.net
-      password: enim
+      email: xankunding@example.org
+      password: impedit
     fileParameters: []
     responses: []
     responseFields: []

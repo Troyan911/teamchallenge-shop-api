@@ -3,6 +3,95 @@ description: ''
 endpoints:
   -
     httpMethods:
+      - POST
+    uri: api/quickOrder
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'CREATE QUICK ORDER'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      customer_name:
+        name: customer_name
+        description: 'The customer name.'
+        required: true
+        example: 'Cristiano Ronaldo'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      phone_number:
+        name: phone_number
+        description: "The user's phone."
+        required: true
+        example: '+38087659800'
+        type: numeric
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      product_id:
+        name: product_id
+        description: "The product's id."
+        required: true
+        example: '2'
+        type: numeric
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      quantity:
+        name: quantity
+        description: 'The quantity.'
+        required: true
+        example: '5'
+        type: numeric
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      delivery_address:
+        name: delivery_address
+        description: 'Delivery address.'
+        required: true
+        example: 'city London. st Bray ton beach 27'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      customer_name: 'Cristiano Ronaldo'
+      phone_number: '+38087659800'
+      product_id: '2'
+      quantity: '5'
+      delivery_address: 'city London. st Bray ton beach 27'
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "message": "Quick order successfully received."
+           }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
       - GET
     uri: api/products
     metadata:
@@ -27,7 +116,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"data":[],"links":{"first":"http:\/\/localhost\/api\/products?page=1","last":"http:\/\/localhost\/api\/products?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost\/api\/products?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost\/api\/products","per_page":12,"to":null,"total":0},"meta_data":{"total":0,"per_page":12,"page":1,"to":1,"path":"http:\/\/localhost\/api\/products","next":null}}'
+        content: '{"data":[{"id":2,"title":"1","gender":"male","variants":[],"SKU":"1","quantity":null,"description":"1","thumbnail":"http:\/\/localhost\/storage\/1","price":{"old":1,"new":1,"final":1,"discount":null},"images":[]}],"links":{"first":"http:\/\/localhost\/api\/products?page=1","last":"http:\/\/localhost\/api\/products?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":1,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost\/api\/products?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost\/api\/products","per_page":12,"to":1,"total":1},"meta_data":{"total":1,"per_page":12,"page":1,"to":1,"path":"http:\/\/localhost\/api\/products","next":null}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -65,13 +154,13 @@ endpoints:
         name: id
         description: 'The ID of the product.'
         required: true
-        example: 17
+        example: 2
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 17
+      id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -79,17 +168,16 @@ endpoints:
     fileParameters: []
     responses:
       -
-        status: 404
-        content: |-
-          {
-              "message": "No query results for model [App\\Models\\Product] 17"
-          }
+        status: 200
+        content: '{"data":{"id":2,"title":"1","gender":"male","variants":[],"SKU":"1","quantity":null,"description":"1","thumbnail":"http:\/\/localhost\/storage\/1","price":{"old":1,"new":1,"final":1,"discount":null},"images":[]}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
+          access-control-allow-origin: '*'
+          access-control-allow-methods: 'GET, POST, PUT, DELETE, OPTIONS'
+          access-control-allow-headers: 'Content-Type, Authorization'
           x-ratelimit-limit: '60'
           x-ratelimit-remaining: '58'
-          access-control-allow-origin: '*'
         description: null
         custom: []
     responseFields: []
@@ -123,7 +211,7 @@ endpoints:
         name: title
         description: 'Must be at least 2 characters. Must not be greater than 255 characters.'
         required: true
-        example: pqfsrxumhazqzgyiehowchgs
+        example: giyftp
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -132,7 +220,7 @@ endpoints:
         name: description
         description: ''
         required: false
-        example: 'Ratione rerum aut et commodi.'
+        example: 'Sit veritatis impedit facilis harum nihil voluptas neque.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -141,7 +229,7 @@ endpoints:
         name: SKU
         description: 'Must be at least 1 character. Must not be greater than 35 characters.'
         required: true
-        example: ylhwvmcdxfqylrrcmpuwum
+        example: mobfcwygrvyj
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -150,7 +238,7 @@ endpoints:
         name: price
         description: 'Must be at least 0.'
         required: true
-        example: 46
+        example: 80
         type: number
         enumValues: []
         exampleWasSpecified: false
@@ -159,7 +247,7 @@ endpoints:
         name: new_price
         description: 'Must be at least 0.'
         required: false
-        example: 33
+        example: 78
         type: number
         enumValues: []
         exampleWasSpecified: false
@@ -184,11 +272,11 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: pqfsrxumhazqzgyiehowchgs
-      description: 'Ratione rerum aut et commodi.'
-      SKU: ylhwvmcdxfqylrrcmpuwum
-      price: 46
-      new_price: 33
+      title: giyftp
+      description: 'Sit veritatis impedit facilis harum nihil voluptas neque.'
+      SKU: mobfcwygrvyj
+      price: 80
+      new_price: 78
     fileParameters:
       thumbnail: null
       images:
@@ -221,13 +309,13 @@ endpoints:
         name: id
         description: 'The ID of the product.'
         required: true
-        example: 19
+        example: 2
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 19
+      id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -304,13 +392,13 @@ endpoints:
         name: favoriteID
         description: ''
         required: true
-        example: et
+        example: nihil
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      favoriteID: et
+      favoriteID: nihil
     fileParameters: []
     responses: []
     responseFields: []
@@ -340,13 +428,13 @@ endpoints:
         name: id
         description: 'The ID of the favorite product.'
         required: true
-        example: eveniet
+        example: minus
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: eveniet
+      id: minus
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -380,13 +468,13 @@ endpoints:
         name: product_id
         description: 'The ID of the product.'
         required: true
-        example: 3
+        example: 2
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      product_id: 3
+      product_id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -430,13 +518,13 @@ endpoints:
         name: id
         description: 'The ID of the image.'
         required: true
-        example: 1
+        example: 8
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 1
+      id: 8
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -479,13 +567,13 @@ endpoints:
         name: id
         description: 'The ID of the image.'
         required: true
-        example: 9
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 9
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

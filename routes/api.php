@@ -21,15 +21,17 @@ Route::group(['middleware' => ['cors']], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 
+    Route::apiResource('quickOrder', \App\Http\Controllers\Orders\QuickOrderController::class)->only(['store']);
+
     Route::apiResource('products', \App\Http\Controllers\Products\ProductsController::class)->only(['index', 'show']);
 
-    Route::post('products/{product}/thumbnail', [\App\Http\Controllers\Products\ImagesController::class, 'storeThumbnail'])->name('product.images.store');
+    Route::post('products/{product}/thumbnail', [\App\Http\Controllers\Products\ImagesController::class, 'storeThumbnail'])->name('product.images.storeThumbnail');
 
     Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::apiResource('products', \App\Http\Controllers\Products\ProductsController::class)->except(['index', 'show']);
 
-        Route::apiResource('favorite_products', \App\Http\Controllers\Products\FavoriteProductsController::class)->except(['show','update']);
+        Route::apiResource('favorite_products', \App\Http\Controllers\Products\FavoriteProductsController::class)->except(['show','update']);;
 
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/change-password', [AuthController::class, 'changePassword']);
@@ -37,12 +39,10 @@ Route::group(['middleware' => ['cors']], function () {
         Route::group(['role:admin|moderator'], function () {
             //        Route::post('products/{product}/images', [\App\Http\Controllers\Products\ImagesController::class, 'storeImage'])->name('product.images.store');
             //        Route::post('products/{product}/thumbnail', [\App\Http\Controllers\Products\ImagesController::class, 'storeThumbnail'])->name('product.images.store');
-
             Route::post('products/{product}/images', [\App\Http\Controllers\Products\ImagesController::class, 'store'])->name('product.images.store');
             Route::get('images/{image}', [\App\Http\Controllers\Products\ImagesController::class, 'show'])->name('images.show');
             Route::delete('images/{image}', \App\Http\Controllers\RemoveImagesAndProductController::class)->name('images.destroy');
         });
-
     });
 });
 
