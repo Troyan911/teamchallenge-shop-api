@@ -11,11 +11,10 @@ import { Head, Link } from '@inertiajs/vue3';
         <div>
             <div class="flex flex-col items-center text-3xl ">
 
-                <h1>Hello World</h1>
+                <h1><b>Hello World</b></h1>
                 <p>Це BackEnd, для сайту з українськими вишиванками.</p>
                 <p><b>Проект Team Challenge.</b> </p>
                 <div class="mt-20 flex flex-row justify-between">
-
                     <Link
                         :href="route('apiDocs')"
                         class="text-red-500 text-2xl mr-5 hover:text-gray-400"
