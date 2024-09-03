@@ -9,6 +9,7 @@ defineProps({
 )
 
 //Directory equal SKU
+//make unique SKU
 </script>
 
 <template>
