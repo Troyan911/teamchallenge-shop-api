@@ -1,6 +1,9 @@
 <?php
 
+use App\Enums\Products\Gender;
 use App\Http\Controllers\ProfileController;
+use App\Models\Color;
+use App\Models\Size;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,6 +39,15 @@ Route::get('/login', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/addProduct', function () {
+    return Inertia::render('AddProduct',[
+        'gender' => Gender::cases(),
+        'size'=> Size::pluck('name')->toArray(),
+        'color'=> Color::pluck('name')->toArray()
+        ]);
+})->middleware(['auth', 'verified'])->name('addProduct');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
