@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import {Head, Link, router} from '@inertiajs/vue3';
 
 </script>
 
@@ -11,19 +11,30 @@ import { Head, Link } from '@inertiajs/vue3';
         <div>
             <div class="flex flex-col items-center text-3xl ">
 
+                <img class="flex flex-row mx-auto mb-10" width="200px"
+                     src="./../assets/teamChallengeLogo.jpeg"
+                     alt="Fishing logo"
+                >
+
                 <h1><b>Hello World</b></h1>
                 <p>Це BackEnd, для сайту з українськими вишиванками.</p>
                 <p><b>Проект Team Challenge.</b> </p>
                 <div class="mt-20 flex flex-row justify-between">
-                    <Link
-                        :href="route('apiDocs')"
-                        class="text-red-500 text-2xl mr-5 hover:text-gray-400"
-                    >Go to API Docs</Link>
+<!--                    <Link-->
+<!--                        :href="route('apiDocs')"-->
+<!--                        class="text-red-500 text-2xl mr-5 hover:text-gray-400"-->
+<!--                    >Go to API Docs</Link>-->
+
+                    <a href="http://70.34.242.75/apiDocs"
+                       class="text-red-500 text-2xl mr-5 hover:text-gray-400"
+                    >Go to API Docs</a>
 
                     <Link
                         :href="route('login')"
                         class="text-red-500 text-2xl mr-5 hover:text-gray-400"
                     >Go to Admin Panel</Link>
+
+
 
                 </div>
             </div>

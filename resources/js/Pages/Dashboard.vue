@@ -1,22 +1,71 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import {Head, Link} from '@inertiajs/vue3';
 </script>
 
 <template>
     <Head title="Dashboard" />
 
-    <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
-        </template>
+    <AuthenticatedLayout >
+        <div class="flex justify-center items-start" style="width: 100%">
+            <div class="grid grid-cols-3 w-full ml-10 mr-10">
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">You're logged in!</div>
-                </div>
+                <Link
+                    :href="route('addProduct')"
+                    class="text-gray-500-500  mr-5 hover:text-gray-400 border-2 border-gray-500 text-center m-4 h-40"
+                >
+                    <div class="flex justify-center items-center" style="height: 100%">
+                        <p>Add Product</p>
+                    </div>
+                    </Link>
+
+                <Link
+                    :href="route('addProduct')"
+                    class="text-gray-500-500  mr-5 hover:text-gray-400 border-2 border-gray-500 text-center m-4 h-40"
+                >
+                    <div class="flex justify-center items-center" style="height: 100%">
+                        <p>Add color</p>
+                    </div>
+                </Link>
+
+                <Link
+                    :href="route('addProduct')"
+                    class="text-gray-500-500  mr-5 hover:text-gray-400 border-2 border-gray-500 text-center m-4 h-40"
+                >
+                    <div class="flex justify-center items-center" style="height: 100%">
+                        <p>Add size</p>
+                    </div>
+                </Link>
+
+                <Link
+                    :href="route('login')"
+                    class="text-gray-500-500  mr-5 hover:text-gray-400 border-2 border-gray-500 text-center m-4 h-40"
+                >
+                    <div class="flex justify-center items-center" style="height: 100%">
+                        <p>USERs</p>
+                    </div>
+                </Link>
+
+                <Link
+                    :href="route('login')"
+                    class="text-gray-500-500  mr-5 hover:text-gray-400 border-2 border-gray-500 text-center m-4 h-40"
+                >
+                    <div class="flex justify-center items-center" style="height: 100%">
+                        <p>USERs</p>
+                    </div>
+                </Link>
+
+                <Link
+                    :href="route('login')"
+                    class="text-gray-500-500  mr-5 hover:text-gray-400 border-2 border-gray-500 text-center m-4 h-40"
+                >
+                    <div class="flex justify-center items-center" style="height: 100%">
+                        <p>USERs</p>
+                    </div>
+                </Link>
+
             </div>
         </div>
+
     </AuthenticatedLayout>
 </template>

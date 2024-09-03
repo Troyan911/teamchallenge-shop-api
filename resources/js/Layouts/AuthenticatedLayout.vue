@@ -32,6 +32,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
+                                <NavLink :href="route('welcome')" :active="route().current('welcome')">
+                                   Go home
+                                </NavLink>
                             </div>
                         </div>
 
@@ -116,7 +119,6 @@ const showingNavigationDropdown = ref(false);
                             Dashboard
                         </ResponsiveNavLink>
                     </div>
-
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">
                         <div class="px-4">
@@ -144,8 +146,8 @@ const showingNavigationDropdown = ref(false);
             </header>
 
             <!-- Page Content -->
-            <main>
-                <slot />
+            <main class="h-screen flex justify-start items-center flex-col">
+                <slot class="h-96" />
             </main>
         </div>
     </div>
