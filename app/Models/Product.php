@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -47,15 +48,21 @@ class Product extends Model
         return $this->hasMany(ProductVariant::class);
     }
 
-    public function favoritedByUsers():BelongsToMany
+    public function favoritedByUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'favorite_products', 'user_id', 'product_id');
     }
 
-    public function images(): MorphMany
+//    public function images(): MorphMany
+//    {
+//        return $this->morphMany(Image::class, 'imageable');
+//    }
+
+    public function images(): HasMany
     {
-        return $this->morphMany(Image::class, 'imageable');
+        return $this->hasMany(Image::class);
     }
+
 
     public function scopeAvailable(Builder $query): Builder
     {
@@ -70,11 +77,11 @@ class Product extends Model
             get: function () {
                 $key = "products.thumbnail.{$this->attributes['thumbnail']}";
 
-                if (! Storage::has($this->attributes['thumbnail'])) {
+                if (!Storage::has($this->attributes['thumbnail'])) {
                     return $this->attributes['thumbnail'];
                 }
 
-                if (! Cache::has($key)) {
+                if (!Cache::has($key)) {
                     $link = Storage::temporaryUrl($this->attributes['thumbnail'], now()->addMinutes(10));
                     Cache::put($key, $link, 570);
                 }
@@ -92,7 +99,7 @@ class Product extends Model
     {
         $fileStorage = app(FileStorageServiceContract::class);
 
-        if (! empty($this->attributes['thumbnail'])) {
+        if (!empty($this->attributes['thumbnail'])) {
             $fileStorage->remove($this->attributes['thumbnail']);
         }
 
@@ -105,7 +112,7 @@ class Product extends Model
     public function finalPrice(): Attribute
     {
         return Attribute::make(
-            get: fn () => round(($this->attributes['new_price'] && $this->attributes['new_price'] > 0
+            get: fn() => round(($this->attributes['new_price'] && $this->attributes['new_price'] > 0
                 ? $this->attributes['new_price']
                 : $this->attributes['price']
             ), 2)
@@ -130,6 +137,6 @@ class Product extends Model
 
     public function isExists(): Attribute
     {
-        return Attribute::get(fn () => $this->attributes['quantity'] > 0);
+        return Attribute::get(fn() => $this->attributes['quantity'] > 0);
     }
 }
