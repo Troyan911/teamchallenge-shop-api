@@ -43,16 +43,16 @@ class ProductsController extends Controller
 
         $mappedProducts = $products->map(function ($product) {
             return [
-                'Product_id' => $product->id,
-                'Product_slug' => $product->slug,
-                'Product_name' => $product->title,
-                'Product_description' => $product->description,
-                'Product_gender' => $product->gender,
-                'Product_color' => $product->color,
-                'Product_hex_code' => Color::where('name', $product->color)->get()->pluck('hex_code')[0],
-                'Product_size' => $product->size,
-                'Product_price' => $product->price,
-                'Product_new_price' => $product->new_price,
+                'id' => $product->id,
+                'slug' => $product->slug,
+                'name' => $product->title,
+                'description' => $product->description,
+                'gender' => $product->gender,
+                'color' => $product->color,
+                'hex_code' => Color::where('name', $product->color)->get()->pluck('hex_code')[0],
+                'size' => $product->size,
+                'price' => $product->price,
+                'new_price' => $product->new_price,
                 'Images_to_product' => $product->images->map(function ($image) {
                     // Customize the image output as you need
                     return [
