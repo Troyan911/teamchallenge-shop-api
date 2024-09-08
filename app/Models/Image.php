@@ -35,12 +35,18 @@ class Image extends Model
         );
     }
 
-    public function setPathAttribute($path)
+    public function product():BelongsTo
     {
-        $fileStorage = app(FileStorageServiceContract::class);
-        $this->attributes['path'] = $fileStorage->upload(
-            $path['image'],
-            $path['directory'] ?? null
-        );
+        return $this->belongsTo(Product::class,'product_id');
     }
+
+
+//    public function setPathAttribute($path)
+//    {
+//        $fileStorage = app(FileStorageServiceContract::class);
+//        $this->attributes['path'] = $fileStorage->upload(
+//            $path['image'],
+//            $path['directory'] ?? null
+//        );
+//    }
 }

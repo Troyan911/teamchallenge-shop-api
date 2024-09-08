@@ -20,7 +20,7 @@ import {Head, Link} from '@inertiajs/vue3';
                     </Link>
 
                 <Link
-                    :href="route('addProduct')"
+                    :href="route('addColor')"
                     class="text-gray-500-500  mr-5 hover:text-gray-400 border-2 border-gray-500 text-center m-4 h-40"
                 >
                     <div class="flex justify-center items-center" style="height: 100%">
@@ -28,43 +28,10 @@ import {Head, Link} from '@inertiajs/vue3';
                     </div>
                 </Link>
 
-                <Link
-                    :href="route('addProduct')"
-                    class="text-gray-500-500  mr-5 hover:text-gray-400 border-2 border-gray-500 text-center m-4 h-40"
-                >
-                    <div class="flex justify-center items-center" style="height: 100%">
-                        <p>Add size</p>
-                    </div>
-                </Link>
-
-                <Link
-                    :href="route('login')"
-                    class="text-gray-500-500  mr-5 hover:text-gray-400 border-2 border-gray-500 text-center m-4 h-40"
-                >
-                    <div class="flex justify-center items-center" style="height: 100%">
-                        <p>USERs</p>
-                    </div>
-                </Link>
-
-                <Link
-                    :href="route('login')"
-                    class="text-gray-500-500  mr-5 hover:text-gray-400 border-2 border-gray-500 text-center m-4 h-40"
-                >
-                    <div class="flex justify-center items-center" style="height: 100%">
-                        <p>USERs</p>
-                    </div>
-                </Link>
-
-                <Link
-                    :href="route('login')"
-                    class="text-gray-500-500  mr-5 hover:text-gray-400 border-2 border-gray-500 text-center m-4 h-40"
-                >
-                    <div class="flex justify-center items-center" style="height: 100%">
-                        <p>USERs</p>
-                    </div>
-                </Link>
-
             </div>
+
+            <img :src="`/storage/`" >
+
         </div>
 
     </AuthenticatedLayout>
