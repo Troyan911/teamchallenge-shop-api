@@ -4,7 +4,7 @@ import {Head, Link, router} from '@inertiajs/vue3';
 </script>
 
 <template>
-    <Head title="Welcome" />
+    <Head title="Home" />
     <div
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white"
     >
@@ -20,21 +20,15 @@ import {Head, Link, router} from '@inertiajs/vue3';
                 <p>Це BackEnd, для сайту з українськими вишиванками.</p>
                 <p><b>Проект Team Challenge.</b> </p>
                 <div class="mt-20 flex flex-row justify-between">
-<!--                    <Link-->
-<!--                        :href="route('apiDocs')"-->
-<!--                        class="text-red-500 text-2xl mr-5 hover:text-gray-400"-->
-<!--                    >Go to API Docs</Link>-->
-
-                    <a href="http://70.34.242.75/apiDocs"
-                       class="text-red-500 text-2xl mr-5 hover:text-gray-400"
+                    <a
+                        :href="route('apiDocs')"
+                        class="text-red-500 text-2xl mr-5 hover:text-gray-400"
                     >Go to API Docs</a>
 
                     <Link
                         :href="route('login')"
                         class="text-red-500 text-2xl mr-5 hover:text-gray-400"
                     >Go to Admin Panel</Link>
-
-
 
                 </div>
             </div>

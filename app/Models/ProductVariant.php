@@ -25,4 +25,9 @@ class ProductVariant extends Model
     {
         return $this->belongsTo(Size::class);
     }
+
+    public function image()
+    {
+        return $this->hasMany(Image::class, 'id', 'photo_id');
+    }
 }
