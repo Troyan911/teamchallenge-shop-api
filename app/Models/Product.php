@@ -57,11 +57,11 @@ class Product extends Model
 //    {
 //        return $this->morphMany(Image::class, 'imageable');
 //    }
-
-    public function images(): HasMany
-    {
-        return $this->hasMany(Image::class);
-    }
+//
+//    public function images(): HasMany
+//    {
+//        return $this->hasMany(Image::class);
+//    }
 
 
     public function scopeAvailable(Builder $query): Builder

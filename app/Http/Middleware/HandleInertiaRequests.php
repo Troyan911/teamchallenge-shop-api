@@ -34,6 +34,12 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'flash' => [
+                'message' => session('message'),
+            ],
+            'uniquenessOfTitleAndSlug' => [
+                'messageUnique' => session('messageUnique'),
+            ]
         ];
     }
 }

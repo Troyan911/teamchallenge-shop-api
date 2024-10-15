@@ -8,8 +8,11 @@ use App\Http\Requests\EditProductRequest;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Color;
+use App\Models\Image;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use App\Repositories\Contracts\ProductsRepositoryContract;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,7 +21,7 @@ class ProductsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
 //        $products = Product::with('variants.color', 'variants.size')
 //            ->orderByDesc('id')
@@ -38,28 +41,16 @@ class ProductsController extends Controller
 //                ]);
 //
 
-        $products = Product::with('images')
-            ->paginate(5);
+        $products = Product::whereIn('gender', [$request->get('gender'), 'unisex'])->paginate(10);
 
         $mappedProducts = $products->map(function ($product) {
             return [
-                'id' => $product->id,
                 'slug' => $product->slug,
                 'name' => $product->title,
-                'description' => $product->description,
-                'gender' => $product->gender,
-                'color' => $product->color,
-                'hex_code' => Color::where('name', $product->color)->get()->pluck('hex_code')[0],
-                'size' => $product->size,
                 'price' => $product->price,
                 'new_price' => $product->new_price,
-                'Images_to_product' => $product->images->map(function ($image) {
-                    // Customize the image output as you need
-                    return [
-                        'Photo_id' => $image->id,
-                        'Url_to_photo' => url('storage/'.$image->path), // assuming 'filename' is the image field
-                    ];
-                }),
+                'color' => Color::find(ProductVariant::where('product_id',$product->id)->get()->pluck('color_id'))->pluck('hex_code','name'),
+                'Images_to_product' =>url('storage/'.Image::find(ProductVariant::where('product_id', $product->id)->get()->pluck('photo_id')->unique())->pluck('path')[0])
             ];
         });
 

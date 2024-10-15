@@ -21,6 +21,10 @@ class Image extends Model
         return $this->morphTo();
     }
 
+    public function productVariant():BelongsTo
+    {
+        return $this->belongsTo(ProductVariant::class);
+    }
 
     public function url(): Attribute
     {
