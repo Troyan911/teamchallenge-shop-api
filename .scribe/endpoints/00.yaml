@@ -40,6 +40,15 @@ endpoints:
         enumValues: []
         exampleWasSpecified: true
         custom: []
+      phone:
+        name: phone
+        description: 'The phone of the user.'
+        required: true
+        example: '+38087659800'
+        type: numeric
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
       password:
         name: password
         description: 'The password of the user.'
@@ -58,20 +67,14 @@ endpoints:
         enumValues: []
         exampleWasSpecified: true
         custom: []
-      phone:
-        name: phone
-        description: 'The phone of the user.'
-        required: true
-        example: '+38087659800'
-        type: numeric
-        enumValues: []
-        exampleWasSpecified: true
-        custom: []
       password_confirmation:
         name: password_confirmation
         description: 'The confirmation password. The exactly same as password.'
         required: true
-        example: adjan213bb134
+        example: |-
+          adjan213bb134
+
+          <b>email</b> and <b>phone</b> has to be unique (nobody had to use this before) otherwise you get error message.
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -79,10 +82,13 @@ endpoints:
     cleanBodyParameters:
       name: Jon
       email: user@example.com
+      phone: '+38087659800'
       password: adjan213bb134
       surname: Gates
-      phone: '+38087659800'
-      password_confirmation: adjan213bb134
+      password_confirmation: |-
+        adjan213bb134
+
+        <b>email</b> and <b>phone</b> has to be unique (nobody had to use this before) otherwise you get error message.
     fileParameters: []
     responses:
       -
@@ -91,6 +97,23 @@ endpoints:
           {
             "message": "User registered successfully"
            }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 200
+        content: |-
+          {
+                     "message": "The email you gave, has already been taken. (and 1 more error)",
+                     "errors": {
+                     "email": [
+                      "The email you gave, has already been taken."
+                      ],
+                     "phone": [
+                     "The phone you gave, has already been taken."
+                      ]
+                      }
+                    }
         headers: []
         description: ''
         custom: []
@@ -227,7 +250,7 @@ endpoints:
         name: email
         description: 'Must be a valid email address.'
         required: true
-        example: tommie49@example.net
+        example: mwiza@example.net
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -236,14 +259,14 @@ endpoints:
         name: password
         description: ''
         required: true
-        example: asperiores
+        example: culpa
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      email: tommie49@example.net
-      password: asperiores
+      email: mwiza@example.net
+      password: culpa
     fileParameters: []
     responses: []
     responseFields: []
