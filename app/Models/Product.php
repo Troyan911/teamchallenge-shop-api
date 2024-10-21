@@ -43,9 +43,14 @@ class Product extends Model
         return $this->hasMany(QuickOrder::class);
     }
 
+//    public function variants()
+//    {
+//        return $this->hasMany(ProductVariant::class);
+//    }
+
     public function variants()
     {
-        return $this->hasMany(ProductVariant::class);
+        return $this->hasMany(ProductVariant::class, 'product_id');
     }
 
     public function favoritedByUsers(): BelongsToMany

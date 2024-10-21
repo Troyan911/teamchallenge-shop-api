@@ -101,9 +101,31 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Display a listing of the resource.'
-      description: ''
-      authenticated: true
+      title: 'DISPLAY A LIST OF PRODUCTS WITH FILTER.'
+      description: |-
+        Two parameters are required in a query string:
+
+        A pagination - numbers of products on one-page.
+
+        A gender - male or female. Products for unisex add by default.
+
+        Example:
+        <p><b>http://70.34.242.75/api/products/?pagination=5&gender=female</b></p>
+
+        Rest of parameters in query string are optional.
+
+        This could be next parameters: <b>size</b>, <b>color</b>, <b>minPrice</b>,
+        <b>maxPrice</b>, <b>sortOrderByPrice</b> (<b>asc </b>or <b>desc</b>), <b>nameOfProduct</b>.
+
+        The query string is built by next rule:
+        question mark, then key=value pairs divided by ampersand,
+        ?key1=value1&key2=value2&key3=value3
+
+        EXAMPLE:
+
+        <p><b>http://70.34.242.75/api/products/?pagination=5&gender=female&</b></p>
+        <p><b>size=M&minPrice=0&maxPrice=40000&ortOrderByPrice=asc&size=m&color=gray&nameOfProduct=Classic T-Shirts</b></p>
+      authenticated: false
       custom: []
     headers:
       Content-Type: application/json
@@ -118,16 +140,37 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"data":[],"links":{"first":"http:\/\/localhost\/api\/products?page=1","last":"http:\/\/localhost\/api\/products?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":null,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost\/api\/products?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"http:\/\/localhost\/api\/products","per_page":12,"to":null,"total":0},"meta_data":{"total":0,"per_page":12,"page":1,"to":1,"path":"http:\/\/localhost\/api\/products","next":null}}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-          access-control-allow-methods: 'GET, POST, PUT, DELETE, OPTIONS'
-          access-control-allow-headers: 'Content-Type, Authorization'
-          x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '59'
-        description: null
+        content: |-
+          {
+                  "meta": {
+                      "colors": [ "red", "blue","green", "gray","black"],
+                      "size": ["s","m","l","xl","xxl","xxxl"],
+                      "minPriceOnStock": 1,
+                      "maxPriceOnStock": 1111
+                      },
+                   "data": {
+                         "listOfProduct": [
+                               {
+                       "slug": "T-Shirts"
+                       "name": "Classic T-Shirts",
+                       "price": 1111,
+                       "new_price": 1111,
+                        "color": {
+                                "gray": "#E8E8E8"
+                                },
+                       "Images_to_product": "http://70.34.242.75/storage/T-F/Dqc85iSFeuHtkraOCkO2hzgntIgtYu2Z9zfUBW7K.png"
+                         }
+                       ],
+                    "current_page": 1,
+                    "last_page": 1,
+                    "per_page": 5,
+                    "total": 1,
+                    "linksPrevious": null,
+                    "linksNext": null
+                    }
+                }
+        headers: []
+        description: ''
         custom: []
     responseFields: []
     auth: []
@@ -156,13 +199,13 @@ endpoints:
         name: id
         description: 'The ID of the product.'
         required: true
-        example: 9
+        example: 102
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 9
+      id: 102
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -170,17 +213,19 @@ endpoints:
     fileParameters: []
     responses:
       -
-        status: 404
+        status: 500
         content: |-
           {
-              "message": "No query results for model [App\\Models\\Product] 9"
+              "message": "Server Error"
           }
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
+          access-control-allow-origin: '*'
+          access-control-allow-methods: 'GET, POST, PUT, DELETE, OPTIONS'
+          access-control-allow-headers: 'Content-Type, Authorization'
           x-ratelimit-limit: '60'
           x-ratelimit-remaining: '58'
-          access-control-allow-origin: '*'
         description: null
         custom: []
     responseFields: []
@@ -214,7 +259,7 @@ endpoints:
         name: title
         description: 'Must be at least 2 characters. Must not be greater than 255 characters.'
         required: true
-        example: xampqujmjqxwfiyoofbr
+        example: tozocictswgm
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -223,7 +268,7 @@ endpoints:
         name: description
         description: ''
         required: false
-        example: 'Vero voluptate quia quaerat error quisquam magni.'
+        example: 'Et consequatur et nihil in rem repudiandae voluptas optio.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -232,7 +277,7 @@ endpoints:
         name: SKU
         description: 'Must be at least 1 character. Must not be greater than 35 characters.'
         required: true
-        example: wmvmmnakthqfdl
+        example: emlocwqogltz
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -241,7 +286,7 @@ endpoints:
         name: price
         description: 'Must be at least 0.'
         required: true
-        example: 66
+        example: 8
         type: number
         enumValues: []
         exampleWasSpecified: false
@@ -250,7 +295,7 @@ endpoints:
         name: new_price
         description: 'Must be at least 0.'
         required: false
-        example: 55
+        example: 70
         type: number
         enumValues: []
         exampleWasSpecified: false
@@ -275,11 +320,11 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: xampqujmjqxwfiyoofbr
-      description: 'Vero voluptate quia quaerat error quisquam magni.'
-      SKU: wmvmmnakthqfdl
-      price: 66
-      new_price: 55
+      title: tozocictswgm
+      description: 'Et consequatur et nihil in rem repudiandae voluptas optio.'
+      SKU: emlocwqogltz
+      price: 8
+      new_price: 70
     fileParameters:
       thumbnail: null
       images:
@@ -312,13 +357,13 @@ endpoints:
         name: id
         description: 'The ID of the product.'
         required: true
-        example: 15
+        example: 102
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 15
+      id: 102
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -395,13 +440,13 @@ endpoints:
         name: favoriteID
         description: ''
         required: true
-        example: praesentium
+        example: impedit
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      favoriteID: praesentium
+      favoriteID: impedit
     fileParameters: []
     responses: []
     responseFields: []
@@ -431,13 +476,13 @@ endpoints:
         name: id
         description: 'The ID of the favorite product.'
         required: true
-        example: pariatur
+        example: qui
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: pariatur
+      id: qui
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -471,13 +516,13 @@ endpoints:
         name: product_id
         description: 'The ID of the product.'
         required: true
-        example: 13
+        example: 102
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      product_id: 13
+      product_id: 102
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -521,13 +566,13 @@ endpoints:
         name: id
         description: 'The ID of the image.'
         required: true
-        example: 20
+        example: 57
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 20
+      id: 57
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -570,13 +615,13 @@ endpoints:
         name: id
         description: 'The ID of the image.'
         required: true
-        example: 5
+        example: 57
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 5
+      id: 57
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

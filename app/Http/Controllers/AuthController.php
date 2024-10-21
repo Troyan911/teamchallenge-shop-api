@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Roles;
 use App\Http\Requests\Auth\ChangePasswordRequest;
+use App\Http\Requests\UserFormRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,19 +29,29 @@ class AuthController extends Controller
      * @bodyParam password string required The password of the user. Example: adjan213bb134
      * @bodyParam password_confirmation string required The confirmation password. The exactly same as password. Example: adjan213bb134
      *
+     *<b>email</b> and <b>phone</b> has to be unique (nobody had to use this before) otherwise you get error message.
+     *
      * @response {
      *   "message": "User registered successfully"
      *  }
      *
+     * @response {
+     *            "message": "The email you gave, has already been taken. (and 1 more error)",
+     *            "errors": {
+     *            "email": [
+     *             "The email you gave, has already been taken."
+     *             ],
+     *            "phone": [
+     *            "The phone you gave, has already been taken."
+     *             ]
+     *             }
+     *           }
+     *
      */
 
-    public function register(Request $request)
+    public function register(UserFormRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+        $request->validated();
 
         $user = User::create([
             'name' => $request->name,
@@ -128,6 +139,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
-        return response()->json(['user'=>$request->user()->name, 'surname'=>$request->user()->surname, 'message' => "Logged out successfully"]);
+        return response()->json(['user' => $request->user()->name, 'surname' => $request->user()->surname, 'message' => "Logged out successfully"]);
     }
 }
