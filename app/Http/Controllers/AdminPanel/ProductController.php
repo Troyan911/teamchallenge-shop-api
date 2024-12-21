@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use App\Enums\Products\Gender;
+use App\Enums\Products\Size as sizeEnum;
 use App\Models\Size;
 use App\Models\Color;
 use App\Models\Image;
@@ -56,31 +58,29 @@ class ProductController extends Controller
         $newProduct->new_price = $request->get('newPrice');
         $newProduct->save();
 
-        //Save Photo
-
-        $arrayColorIdPhotoId = [];
         foreach ($request->all()['photo'] as $photo) {
+
+            //Save Photo
+
             $path = $photo['photo'][0]->store($request->get('directory'), 'public');
-            $originalName = $photo['photo'][0]->getClientOriginalName();
             $newPhoto = new Image();
             $newPhoto->path = $path;
             $newPhoto->imageable_id = true;
             $newPhoto->imageable_type = true;
             $newPhoto->save();
-            $arrayColorIdPhotoId[$photo['color']] = $newPhoto->id;
-        }
 
-        //Save product variants
+            //Save product variants for all possible sizes for this color.
 
-        $productsVariant = $request->get('productsVariants');
+            foreach (sizeEnum::cases() as $item) {
 
-        foreach ($productsVariant as $item) {
-            $productsVariantInDB = new ProductVariant();
-            $productsVariantInDB->product_id = $newProduct->id;
-            $productsVariantInDB->color_id = $item[0];
-            $productsVariantInDB->size_id = $item[1];
-            $productsVariantInDB->photo_id = $arrayColorIdPhotoId[$item[0]];
-            $productsVariantInDB->save();
+                $productsVariantInDB = new ProductVariant();
+                $productsVariantInDB->product_id = $newProduct->id;
+                $productsVariantInDB->color_id = $photo['color'];
+                $productsVariantInDB->size_id = Size::where('name', $item->value)->get()->pluck('id')[0];
+                $productsVariantInDB->photo_id = $newPhoto->id;
+                $productsVariantInDB->save();
+            }
+
         }
 
         return redirect()->back()->with([
@@ -94,7 +94,15 @@ class ProductController extends Controller
     public function show(int $id)
     {
         return Inertia::render('CardOfProduct', [
-            'ProductCard' =>Product::with('variants')->find($id)
+            'ProductCard' => Product::find($id),
+            'ColorsAndImages' => ProductVariant::where('product_id', $id)->get()->pluck('color_id','photo_id')->unique()
+               ->map(function ($items,$key) {
+                    return [
+                        'color' => Color::find($items)->name,
+                        'hexOfColor' => Color::find($items)->hex_code,
+                        'path' => url('storage/' . Image::find($key)->path)
+                    ];
+                })
         ]);
     }
 
@@ -120,9 +128,11 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
 
-        $delete = Product::find($id);
+        Storage::disk('public')->deleteDirectory(Product::find($id)->directory);
 
+        $delete = Product::find($id);
         $delete->delete();
+
 
         return redirect()->route('product.index')->with([
             'message' => 'The delete successfully',
@@ -132,28 +142,28 @@ class ProductController extends Controller
     public function checkUniquenessOfTitleAndSlug(Request $request)
     {
 
-        $checkTitle=Product::firstWhere('title',$request->get('title'));
+        $checkTitle = Product::firstWhere('title', $request->get('title'));
 
-        $checkSlug=Product::firstWhere('slug',$request->get('slug'));
+        $checkSlug = Product::firstWhere('slug', $request->get('slug'));
 
-        if($checkTitle==null && $checkSlug==null){
+        if ($checkTitle == null && $checkSlug == null) {
             return redirect()->back()->with([
                 'messageUnique' => 'Both unique',
             ]);
         }
 
-        if($checkTitle!=null && $checkSlug!=null){
+        if ($checkTitle != null && $checkSlug != null) {
             return redirect()->back()->with([
                 'messageUnique' => 'Both has been taken.',
             ]);
         }
 
-        if($checkTitle!=null && $checkSlug==null){
+        if ($checkTitle != null && $checkSlug == null) {
             return redirect()->back()->with([
                 'messageUnique' => 'Title has been taken.',
             ]);
         }
-        if($checkTitle==null && $checkSlug!=null){
+        if ($checkTitle == null && $checkSlug != null) {
             return redirect()->back()->with([
                 'messageUnique' => 'Slug has been taken.',
             ]);

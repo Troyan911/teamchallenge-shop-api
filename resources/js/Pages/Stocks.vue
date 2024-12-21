@@ -43,18 +43,18 @@ const DeleteTypeOfProduct = function (stockToDelete) {
         </div>
 
 
-        <div v-else class="flex justify-center flex-col w-full">
-            <div class="flex flex-col items-center mt-10 mb-10">
+        <div v-else class="flex justify-center flex-col w-full relative">
+            <div class="flex flex-col items-center mt-10 mb-10 fixed top-5 left-0 right-0">
                 <h1>LIST ALL STOCKS</h1>
             </div>
-            <table class="border-collapse border mr-6 ml-6 border-slate-400">
-                <thead class="sticky top-28 bg-amber-600">
-                <tr>
+            <table class="border-collapse border mr-6 ml-6 border-slate-400 ">
+                <thead class=" bg-amber-600">
+                <tr class="">
                     <th class="border border-slate-300 max-w-24">Name</th>
                     <th class="border border-slate-300 max-w-24">Size</th>
                     <th class="border border-slate-300 max-w-24">Color</th>
                     <th class="border border-slate-300 max-w-24">Quantity</th>
-                    <th class="border border-slate-300 max-w-24">Delete item</th>
+<!--                    <th class="border border-slate-300 max-w-24">Delete item</th>-->
                 </tr>
                 </thead>
                 <tbody v-for="stock in $props.Stocks"
@@ -94,7 +94,7 @@ const DeleteTypeOfProduct = function (stockToDelete) {
                                                class="max-w-28"
                                         >
                                         <button type="submit" class="ml-5 bg-orange-500 rounded-full w-20"
-                                                :disabled="newQuantity<=0"
+                                                :disabled="newQuantity<0"
                                         >New Qty.</button>
                                         <p v-show="newQuantity<0" class="text-red-400">Quantity couldn't be less than zero. </p>
                                     </form>
@@ -103,9 +103,9 @@ const DeleteTypeOfProduct = function (stockToDelete) {
                             </div>
                         </div>
                     </td>
-                    <td class="border border-slate-300 text-center pt-2 pb-2">
-                        <button @click="DeleteTypeOfProduct(stock.idOfTypeOfProduct)">delete</button>
-                    </td>
+<!--                    <td class="border border-slate-300 text-center pt-2 pb-2">-->
+<!--                        <button @click="DeleteTypeOfProduct(stock.idOfTypeOfProduct)">delete</button>-->
+<!--                    </td>-->
                 </tr>
                 </tbody>
             </table>

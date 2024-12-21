@@ -35,7 +35,6 @@ class ProductFactory extends Factory
             'SKU' => fake()->unique()->ean13(),
             'price' => $price,
             'new_price' => (rand(1, 5) % 2 === 0 ? $newPrice : null),
-            'thumbnail' => fake()->imageUrl(),
         ];
     }
 }

@@ -1,8 +1,8 @@
 <script setup xmlns="http://www.w3.org/1999/html">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head, Link, router} from '@inertiajs/vue3';
-import {computed, ref, watch} from "vue";
-import { usePage } from "@inertiajs/vue3";
+import { ref, watch} from "vue";
+import moment from 'moment';
 
 defineProps({
         size: Object,
@@ -72,7 +72,7 @@ watch(data.value, () => {
         }
 
         // Combine the parts to form the SKU
-        const SKU = `${slugCode}-${genderCode}`;
+        const SKU = `${slugCode}-${genderCode}-${moment().format('MMMM Do YYYY, h:mm:ss a')}`;
         data.value.SKU = SKU
         data.value.directory = SKU
     }
@@ -113,7 +113,7 @@ function sendData(route) {
             <div class="flex flex-col items-center mt-10 mb-10">
             </div>
             <div v-if="!$page.props.flash.message">
-                <h1 class="text-center mb-5">Add new product.</h1>
+                <h1 class="text-center mb-10"><b>Add new product.</b></h1>
                 <form @submit.prevent="sendData(route('product.store'))">
 
                     <div class="flex flex-row">
@@ -148,7 +148,6 @@ function sendData(route) {
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <input type="text" id="last_name"
                                        placeholder="classic-T-shirt"
@@ -209,8 +208,7 @@ function sendData(route) {
                                  style="width: 100%"
                             >
                                 <label for="countries"
-                                       class="block mb-2 text-sm font-medium text-red-500 dark:text-white">Color</label>
-                                <div>Checked size: {{ checkedSize }}</div>
+                                       class="block mb-2 text-sm font-medium text-red-500 dark:text-white">Product available in next color(s):</label>
                                 <div class="flex flex-col ">
                                     <div v-for="(x,item) in color" :key="item">
 
@@ -230,16 +228,6 @@ function sendData(route) {
                                                     />
                                                 </div>
                                             </form>
-                                            <label for="x">Sizes for color: {{ x }} and quantity</label>
-                                            <div class="flex flex-row">
-                                                <div v-for="(size,index) in size" :key="index" class="mb-5">
-                                                    <label :for="size">{{ size }}</label>
-                                                    <input :value="item+'-'+index" :id="size" type="checkbox"
-                                                           class="ml-1 mr-3"
-                                                           v-model="checkedSize"
-                                                    />
-                                                </div>
-                                            </div>
                                         </div>
 
                                     </div>
