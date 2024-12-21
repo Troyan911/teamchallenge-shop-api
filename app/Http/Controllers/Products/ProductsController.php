@@ -22,19 +22,24 @@ class ProductsController extends Controller
     /**
      * DISPLAY A LIST OF PRODUCTS WITH FILTER.
      *
-     * Two parameters are required in a query string:
+     * Two parameters are required in a "query string":
      *
      *A pagination - numbers of products on one-page.
      *
-     *A gender - male or female. Products for unisex add by default.
+     *A gender - male or female. Products for unisex are added by default.
      *
      * Example:
      * <p><b>http://70.34.242.75/api/products/?pagination=5&gender=female</b></p>
      *
      * Rest of parameters in query string are optional.
      *
-     * This could be next parameters: <b>size</b>, <b>color</b>, <b>minPrice</b>,
-     * <b>maxPrice</b>, <b>sortOrderByPrice</b> (<b>asc </b>or <b>desc</b>), <b>nameOfProduct</b>.
+     * This could be next parameters:
+     * <b>size</b> (If query string has "size" filter,it also checks if that’s available in stock.),
+     * <b>color</b>,
+     * <b>minPrice</b>,
+     * <b>maxPrice</b>,
+     * <b>sortOrderByPrice</b> (<b>asc </b>or <b>desc</b>),
+     * <b>nameOfProduct</b>.
      *
      * The query string is built by next rule:
      * question mark, then key=value pairs divided by ampersand,
@@ -77,47 +82,8 @@ class ProductsController extends Controller
      *       }
      */
 
-
-    //pagination=
-    //gender=male / female
-    //size=M
-    //color=red
-    //minPrice=
-    //maxPrice=
-    //sortOrder=asc desc
-    //nameOfProduct
-
-
     public function index(Request $request)
     {
-//        $products = Product::with('variants.color', 'variants.size')
-//            ->orderByDesc('id')
-//            ->paginate(12);
-//
-//        return (new ProductCollection($products))
-//            ->additional(
-//                [
-//                    'meta_data' => [
-//                        'total' => $products->total(),
-//                        'per_page' => $products->perPage(),
-//                        'page' => $products->currentPage(),
-//                        'to' => $products->lastPage(),
-//                        'path' => $products->path(),
-//                        'next' => $products->nextPageUrl(),
-//                    ],
-//                ]);
-
-        //pagination=
-        //gender=male / female
-        //size=M
-        //color=red
-        //minPrice=
-        //maxPrice=
-        //sortOrder=asc desc
-        //nameOfProduct
-
-        //?pagination=5&gender=female&size=M&minPrice=0&maxPrice=40000&sortOrder=asc&size=m&color=gray&nameOfProduct=ff
-
         $products = Product::whereIn('gender', [$request->get('gender'), 'unisex'])
             ->when($request->minPrice, function ($query) use ($request) {
                 $query->where('new_price', '>=', $request->minPrice);
@@ -139,7 +105,9 @@ class ProductsController extends Controller
             })
             ->when($request->size, function ($query) use ($request) {
                 $query->whereHas('variants', function ($query) use ($request) {
-                    $query->where('size_id', Size::where('name', $request->size)->first()->id);
+                    $sizeId = Size::where('name', $request->size)->first()->id;
+                    $query->where('size_id', $sizeId)
+                        ->where('quantity', '>', 0); // Check if the variant is in stock
                 });
             })
             ->with(['variants' => function ($query) use ($request) {
@@ -153,20 +121,19 @@ class ProductsController extends Controller
                 'name' => $product->title,
                 'price' => $product->price,
                 'new_price' => $product->new_price,
+                'gender' => $product->gender,
+                'sizeOnStock'=>ProductVariant::where('product_id',$product->id)->get(),
                 'color' => Color::find(ProductVariant::where('product_id', $product->id)->get()->pluck('color_id'))->pluck('hex_code', 'name'),
                 'Images_to_product' => url('storage/' . Image::find(ProductVariant::where('product_id', $product->id)->get()->pluck('photo_id')->unique())->pluck('path')[0])
             ];
         });
 
-        //return response()->json($products);
-
         return response()->json([
             'meta' => [
                 'colors' => Color::all()->pluck('name'),
                 'size' => Size::all()->pluck('name')->unique(),
-                'minPriceOnStock' => Product::all()->min('new_price'),
-                'maxPriceOnStock' => Product::all()->max('new_price'),
-
+                'minPriceOnStock' => Product::whereIn('gender', [$request->get('gender'), 'unisex'])->min('new_price'),
+                'maxPriceOnStock' => Product::whereIn('gender', [$request->get('gender'), 'unisex'])->max('new_price'),
             ],
             'data' => [
                 'listOfProduct' => $mappedProducts,
@@ -179,35 +146,6 @@ class ProductsController extends Controller
             ],
 
         ]);
-
-        //$products = Product::paginate($request->get('pagination'));
-//        $mappedProducts->when($request->minPrice, function ($query) use ($request) {
-//                $query->where('new_price', '>=', $request->minPrice);
-//            })
-//            ->when($request->maxPrice, function ($query) use ($request) {
-//                $query->where('new_price', '<=', $request->maxPrice);
-//            });
-//
-//        return response()->json([
-//            'query' => $request->all(),
-//            'data' => $mappedProducts,
-//            'current_page' => $products->currentPage(),
-//            'last_page' => $products->lastPage(),
-//            'per_page' => $products->perPage(),
-//            'total' => $products->total(),
-//            'linksPrevious' => $products->previousPageUrl(),
-//            'linksNext' => $products->nextPageUrl()
-//        ]);
-
-//        $users = DB::table('products')
-//            ->rightJoin('product_variants', 'products.id', '=', 'product_variants.product_id')
-//
-//            ->get();
-//
-//        return response()->json([
-//            'list'=>$users,
-//        ]);
-
     }
 
     /**

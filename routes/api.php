@@ -49,3 +49,12 @@ Route::group(['middleware' => ['cors']], function () {
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::fallback(function () {
+    return response()->json(['message' => 'Route Not Found'], 404);
+})->name('api.fallback.404');
+
+//Route::prefix()
+//group
+//route::controller
+//route::name
